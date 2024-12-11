@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<StocKeeper.Models.Product>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+
 <table class="table table-striped table-hover">
     <thead>
         <tr>
@@ -36,6 +35,10 @@
         }
     </tbody>
 </table>
+
+<div>
+    <a href="@Url.Action("Create", "Product")" class="btn btn-primary btn-lg">Create New</a>
+</div>
 
 <!-- Include hidden anti-forgery token for AJAX calls -->
 

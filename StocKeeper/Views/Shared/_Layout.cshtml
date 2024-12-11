@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,28 +9,72 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-dark bg-primary" data-bs-theme="dark">
         <div class="container">
-            @Html.ActionLink("STOCKEEPER", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <a href="@Url.Action("Index", "Home")" class="navbar-brand">
+                <img src="@Url.Content("~/Images/StocKeeper.png")" alt="StocKeeper Logo" style="height: 50px; width: auto;">
+            </a>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
-            </div>
         </div>
     </nav>
-    <div class="container body-content">
+    <!-- Footer Information -->
+    <div class="text-center py-4">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+        <img src="~/Images/StocKeeper.png" />
+        <h3 class="text-light mx-2">Made in November 27th of 2024</h3>
+        <p class="text-light mx-2">This is a System we, Club Eijay made for our ELDNET Subject</p>
+        <p class="text-light mx-2">This is an ASP.NET MVC Inventory Management Web Application</p><br />
+
+        <!-- Social Media Icons -->
+        <div class="social-icons mb-3">
+            <a href="#" class="text-light mx-2 icon-link"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" class="text-light mx-2 icon-link"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="text-light mx-2 icon-link"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" class="text-light mx-2 icon-link"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" class="text-light mx-2 icon-link"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#" class="text-light mx-2 icon-link"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" class="text-light mx-2 icon-link"><i class="fa-brands fa-github"></i></a>
+        </div>
+        <div class="footer-links text-light py-4">
+            <div class="container">
+                <div class="row">
+                    <!-- Contact Info Column -->
+                    <div class="col-md-4 mb-4 text-center">
+                        <address>
+                            <strong>Club Eijay Corp.</strong><br />
+                            University Of Cebu - Banilad<br />
+                            <abbr title="Phone">P:</abbr> 425.555.0100
+                        </address>
+                    </div>
+
+                    <!-- Support and Marketing Column -->
+                    <div class="col-md-4 mb-4 text-center">
+                        <address>
+                            <strong>Support:</strong> <a href="mailto:Support@example.com" class="text-light">eijay.pepito8@gmail.com</a><br />
+                            <strong>Marketing:</strong> <a href="mailto:Marketing@example.com" class="text-light">eijay.pepito8@gmail.com</a><br />
+                        </address>
+                    </div>
+
+                    <!-- Legal Links Column -->
+                    <div class="col-md-4 mb-4 text-center">
+                        <a href="#" class="text-light d-block">Legal Stuff</a>
+                        <a href="#" class="text-light d-block">Privacy Policy</a>
+                        <a href="#" class="text-light d-block">Security</a>
+                        <a href="#" class="text-light d-block">Website Accessibility</a>
+                        <a href="#" class="text-light d-block">Manage Cookies</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <p class="mb-0">&copy; @DateTime.Now.Year Club Eijay Corp. All Rights Reserved.</p>
+            </div>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
