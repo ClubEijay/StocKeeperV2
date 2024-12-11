@@ -1,55 +1,72 @@
 ﻿@model StocKeeper.Models.ProductViewModel
 
-<div class="container mt-4">
-    <h2>Create Product</h2>
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="col-md-6">
+        <h2 class="text-center mb-4">Create Product</h2>
 
-    <form asp-action="Create">
-        <!-- Name Input -->
-        <div class="form-group">
-            <label>Name</label>
-            <label asp-for="Product.Name" class="control-label"></label>
-            <input asp-for="Product.Name" class="form-control" />
-            <span asp-validation-for="Product.Name" class="text-danger"></span>
-        </div>
+        <form asp-action="Create" class="p-4 bg-gradient rounded shadow">
+            <!-- Name Input -->
+            <div class="form-group row align-items-center mb-3">
+                <label asp-for="Product.Name" class="col-md-3 col-form-label">Name</label>
+                <div class="col-md-9">
+                    <input asp-for="Product.Name" class="form-control" placeholder="Enter product name" />
+                    <span asp-validation-for="Product.Name" class="text-danger"></span>
+                </div>
+            </div>
 
-        <!-- Category Input -->
-        <div class="form-group">
-            <label>Category</label>
-            <label asp-for="Product.Category" class="control-label"></label>
-            <input asp-for="Product.Category" class="form-control" />
-            <span asp-validation-for="Product.Category" class="text-danger"></span>
-        </div>
+            <!-- Category Dropdown -->
+            <div class="form-group row align-items-center mb-3">
+                <label asp-for="Product.Category" class="col-md-3 col-form-label">Category</label>
+                <div class="col-md-9">
+                    <select asp-for="Product.Category" class="form-control">
+                        <option value="" disabled selected>Select Category</option>
+                        <!-- Add more categories as needed -->
+                    </select>
+                    <span asp-validation-for="Product.Category" class="text-danger"></span>
+                </div>
+            </div>
 
-        <!-- Supplier Dropdown -->
-        <div class="form-group">
-            <label>Supplier</label>
-            <label asp-for="Product.SupplierID" class="control-label"></label>
-            <select asp-for="Product.SupplierID" class="form-control">
-                @foreach (var supplier in Model.Suppliers)
-                {
-                    <option value="@supplier.Value">@supplier.Text</option>
-                }
-            </select>
-            <span asp-validation-for="Product.SupplierID" class="text-danger"></span>
-        </div>
+            <!-- Supplier Dropdown -->
+            <div class="form-group row align-items-center mb-3">
+                <label asp-for="Product.SupplierID" class="col-md-3 col-form-label">Supplier</label>
+                <div class="col-md-9">
+                    <select asp-for="Product.SupplierID" class="form-control">
+                        <option value="" disabled selected class="">Select Supplier</option>
+                        @foreach (var supplier in Model.Suppliers)
+                        {
+                            <option value="@supplier.Value">@supplier.Text</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Product.SupplierID" class="text-danger"></span>
+                </div>
+            </div>
 
-        <!-- Stock Level Input -->
-        <div class="form-group">
-            <label>Stock Level</label>
-            <label asp-for="Product.StockLevel" class="control-label"></label>
-            <input asp-for="Product.StockLevel" class="form-control" />
-            <span asp-validation-for="Product.StockLevel" class="text-danger"></span>
-        </div>
+            <!-- Stock Level Input -->
+            <div class="form-group row align-items-center mb-3">
+                <label asp-for="Product.StockLevel" class="col-md-3 col-form-label">Stock Level</label>
+                <div class="col-md-9">
+                    <input asp-for="Product.StockLevel" class="form-control" placeholder="Enter stock level" />
+                    <span asp-validation-for="Product.StockLevel" class="text-danger"></span>
+                </div>
+            </div>
 
-        <!-- Price Input -->
-        <div class="form-group">
-            <label>Price</label>
-            <label asp-for="Product.Price" class="control-label"></label>
-            <input asp-for="Product.Price" class="form-control" />
-            <span asp-validation-for="Product.Price" class="text-danger"></span>
-        </div>
+            <!-- Price Input -->
+            <div class="form-group row align-items-center mb-3">
+                <label asp-for="Product.Price" class="col-md-3 col-form-label">Price</label>
+                <div class="col-md-9">
+                    <input asp-for="Product.Price" class="form-control" placeholder="Enter product price" />
+                    <span asp-validation-for="Product.Price" class="text-danger"></span>
+                </div>
+            </div>
 
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-    </form>
+            <!-- Action Buttons -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary me-2">Save</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
+
+
+
