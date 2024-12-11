@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<StocKeeper.Models.Product>
-<table class="table">
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-striped table-hover">
     <thead>
         <tr>
             <th>Name</th>
@@ -7,7 +11,7 @@
             <th>Supplier</th>
             <th>Stock Level</th>
             <th>Price</th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -16,15 +20,25 @@
             <tr>
                 <td>@item.Name</td>
                 <td>@item.Category</td>
-                <td>@item.Supplier.Name</td>
+                <td>@item.Supplier?.Name</td> <!-- Added null-check for Supplier -->
                 <td>@item.StockLevel</td>
-                <td>@item.Price</td>
+                <td>@item.Price.ToString("C")</td> <!-- Formats as currency -->
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ProductID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }, new { @class = "btn btn-sm btn-primary" })
+                    @Html.ActionLink("Details", "Details", new { id = item.ProductID }, new { @class = "btn btn-sm btn-info" })
+                    <a href="@Url.Action("DeleteConfirmed", "Product", new { id = item.ProductID })"
+                       class="btn btn-sm btn-danger delete-btn"
+                       data-name="@item.Name">
+                        Delete
+                    </a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!-- Include hidden anti-forgery token for AJAX calls -->
+
+@Html.AntiForgeryToken()
+
+

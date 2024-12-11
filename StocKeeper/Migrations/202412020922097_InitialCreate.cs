@@ -1,4 +1,4 @@
-﻿namespace StocKeeper.Migrations
+﻿    namespace StocKeeper.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -10,58 +10,57 @@
             CreateTable(
                 "dbo.Inventories",
                 c => new
-                    {
-                        InventoryID = c.Int(nullable: false, identity: true),
-                        ProductID = c.Int(nullable: false),
-                        Quantity = c.Int(nullable: false),
-                        AdjustmentType = c.String(nullable: false, maxLength: 50),
-                        Date = c.DateTime(nullable: false),
-                    })
+                {
+                    InventoryID = c.Int(nullable: false, identity: true),
+                    ProductID = c.Int(nullable: false),
+                    Quantity = c.Int(nullable: false),
+                    AdjustmentType = c.String(nullable: false, maxLength: 50),
+                    Date = c.DateTime(nullable: false),
+                })
                 .PrimaryKey(t => t.InventoryID)
                 .ForeignKey("dbo.Products", t => t.ProductID, cascadeDelete: true)
                 .Index(t => t.ProductID);
-            
+
             CreateTable(
                 "dbo.Products",
                 c => new
-                    {
-                        ProductID = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 100),
-                        Category = c.String(maxLength: 50),
-                        SupplierID = c.Int(nullable: false),
-                        StockLevel = c.Int(nullable: false),
-                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
-                    })
+                {
+                    ProductID = c.Int(nullable: false, identity: true),
+                    Name = c.String(nullable: false, maxLength: 100),
+                    Category = c.String(maxLength: 50),
+                    SupplierID = c.Int(nullable: false),
+                    StockLevel = c.Int(nullable: false),
+                    Price = c.Decimal(nullable: false, precision: 18, scale: 2),
+                })
                 .PrimaryKey(t => t.ProductID)
                 .ForeignKey("dbo.Suppliers", t => t.SupplierID, cascadeDelete: true)
                 .Index(t => t.SupplierID);
-            
+
             CreateTable(
                 "dbo.Suppliers",
                 c => new
-                    {
-                        SupplierID = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 100),
-                        ContactInfo = c.String(maxLength: 200),
-                        Address = c.String(maxLength: 200),
-                    })
+                {
+                    SupplierID = c.Int(nullable: false, identity: true),
+                    Name = c.String(nullable: false, maxLength: 100),
+                    ContactInfo = c.String(maxLength: 200),
+                    Address = c.String(maxLength: 200),
+                })
                 .PrimaryKey(t => t.SupplierID);
-            
+
             CreateTable(
                 "dbo.PurchaseOrders",
                 c => new
-                    {
-                        OrderID = c.Int(nullable: false, identity: true),
-                        SupplierID = c.Int(nullable: false),
-                        Date = c.DateTime(nullable: false),
-                        Status = c.String(maxLength: 50),
-                    })
+                {
+                    OrderID = c.Int(nullable: false, identity: true),
+                    SupplierID = c.Int(nullable: false),
+                    Date = c.DateTime(nullable: false),
+                    Status = c.String(maxLength: 50),
+                })
                 .PrimaryKey(t => t.OrderID)
                 .ForeignKey("dbo.Suppliers", t => t.SupplierID, cascadeDelete: true)
                 .Index(t => t.SupplierID);
-            
+
         }
-        
         public override void Down()
         {
             DropForeignKey("dbo.PurchaseOrders", "SupplierID", "dbo.Suppliers");
