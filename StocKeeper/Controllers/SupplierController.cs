@@ -15,9 +15,44 @@ namespace StocKeeper.Controllers
         private StocKeeperContext db = new StocKeeperContext();
 
         // GET: Supplier
-        public ActionResult Index()
+        public ActionResult Index(string searchString, string sortOrder, string filterEmail)
         {
-            return View(db.Suppliers.ToList());
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.EmailSortParm = sortOrder == "Email" ? "email_desc" : "Email";
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentEmailFilter = filterEmail;
+
+            var suppliers = db.Suppliers.AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                suppliers = suppliers.Where(s => s.Name.Contains(searchString)
+                                            || s.ContactPerson.Contains(searchString)
+                                            || s.Address.Contains(searchString));
+            }
+
+            if (!String.IsNullOrEmpty(filterEmail))
+            {
+                suppliers = suppliers.Where(s => s.Email.Contains(filterEmail));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    suppliers = suppliers.OrderByDescending(s => s.Name);
+                    break;
+                case "Email":
+                    suppliers = suppliers.OrderBy(s => s.Email);
+                    break;
+                case "email_desc":
+                    suppliers = suppliers.OrderByDescending(s => s.Email);
+                    break;
+                default:
+                    suppliers = suppliers.OrderBy(s => s.Name);
+                    break;
+            }
+
+            return View(suppliers.ToList());
         }
 
         // GET: Supplier/Details/5
@@ -27,7 +62,10 @@ namespace StocKeeper.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Supplier supplier = db.Suppliers.Find(id);
+            Supplier supplier = db.Suppliers
+                .Include(s => s.Products.Select(p => p.Category))
+                .Include(s => s.PurchaseOrders)
+                .FirstOrDefault(s => s.SupplierId == id);
             if (supplier == null)
             {
                 return HttpNotFound();
@@ -36,6 +74,7 @@ namespace StocKeeper.Controllers
         }
 
         // GET: Supplier/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
@@ -46,7 +85,7 @@ namespace StocKeeper.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SupplierID,Name,ContactInfo,Address")] Supplier supplier)
+        public ActionResult Create([Bind(Include = "Name,ContactPerson,Email,Phone,Address")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +117,7 @@ namespace StocKeeper.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SupplierID,Name,ContactInfo,Address")] Supplier supplier)
+        public ActionResult Edit([Bind(Include = "SupplierId,Name,ContactPerson,Email,Phone,Address,IsActive")] Supplier supplier)
         {
             if (ModelState.IsValid)
             {

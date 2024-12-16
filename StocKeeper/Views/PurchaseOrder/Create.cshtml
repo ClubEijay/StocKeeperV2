@@ -1,56 +1,252 @@
-﻿@model StocKeeper.Models.PurchaseOrder
+﻿@model StocKeeper.Models.PurchaseOrders
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Purchase Order";
 }
 
-<h2>Create</h2>
-
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>PurchaseOrder</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.SupplierID, "SupplierID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("SupplierID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Order Information</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                @Html.LabelFor(m => m.SupplierId, "Supplier", new { @class = "form-label" })
+                                @Html.DropDownList("SupplierId", (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form-select", required = "required" })
+                                @Html.ValidationMessageFor(m => m.SupplierId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                @Html.LabelFor(m => m.OrderDate, new { @class = "form-label" })
+                                @Html.EditorFor(m => m.OrderDate, new { htmlAttributes = new { @class = "form-control", type = "date", required = "required" } })
+                                @Html.ValidationMessageFor(m => m.OrderDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                @Html.LabelFor(m => m.ExpectedDeliveryDate, new { @class = "form-label" })
+                                @Html.EditorFor(m => m.ExpectedDeliveryDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                                @Html.ValidationMessageFor(m => m.ExpectedDeliveryDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                @Html.LabelFor(m => m.Status, new { @class = "form-label" })
+                                @Html.DropDownListFor(m => m.Status, new SelectList(new[] { "Pending" }), new { @class = "form-select", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group mb-3">
+                                @Html.LabelFor(m => m.Notes, new { @class = "form-label" })
+                                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control", rows = "3" })
+                                @Html.ValidationMessageFor(m => m.Notes, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="card-title mb-0">Order Details</h5>
+                        <button type="button" class="btn btn-primary btn-sm" id="addProductRow">
+                            <i class="fas fa-plus me-2"></i>Add Product
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="productTable" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <select name="orderDetails[0].ProductId" class="form-control product-dropdown" required disabled>
+                                            <option>Select a Supplier first</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="orderDetails[0].Quantity" class="form-control" required min="1" />
+                                    </td>
+                                    <td>
+                                        <input type="number" name="orderDetails[0].UnitPrice" class="form-control unit-price" step="0.01" required />
+                                    </td>
+                                    <td>
+                                        <button type="button" id="addProductRow" class="btn btn-primary">Add Product</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <h5 class="card-title mb-0 me-3">Order Summary</h5>
+                            <div class="fs-4 fw-bold text-primary">
+                                <strong>Grand Total: </strong>
+                                <span id="grandTotal" class="fs-3">₱0.00</span>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary" id="submitOrder">
+                                <i class="fas fa-save me-2"></i>Create Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function() {
+            // Handle supplier selection
+            $('#SupplierId').change(function() {
+                const supplierId = $(this).val();
+                if (supplierId) {
+                    // Clear existing rows
+                    $('#productTable tbody').empty();
+                    // Add first row
+                    addProductRow();
+                }
+            });
+
+            function addProductRow() {
+                const supplierId = $('#SupplierId').val();
+                if (!supplierId) {
+                    alert('Please select a supplier first');
+                    return;
+                }
+
+                const rowCount = $('#productTable tbody tr').length;
+                const newRow = `
+                    <tr>
+                        <td>
+                            <select name="orderDetails[${rowCount}].ProductId" class="form-select product-select" required>
+                                <option value="">Select Product</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" name="orderDetails[${rowCount}].Quantity"
+                                   class="form-control quantity-input" min="1" required>
+                        </td>
+                        <td>
+                            <input type="number" name="orderDetails[${rowCount}].UnitPrice"
+                                   class="form-control unit-price" readonly>
+                        </td>
+                        <td>
+                            <span class="row-total">₱0.00</span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm remove-row">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+
+                const $row = $(newRow);
+                $('#productTable tbody').append($row);
+
+                // Load products for the new row
+                loadProducts($row.find('.product-select'), supplierId);
+            }
+
+            function loadProducts($select, supplierId) {
+                $.get('@Url.Action("GetSupplierProducts")', { supplierId: supplierId })
+                    .done(function(products) {
+                        $select.empty().append('<option value="">Select Product</option>');
+                        products.forEach(function(product) {
+                            $select.append(`<option value="${product.productId}"
+                                          data-price="${product.unitPrice}">
+                                          ${product.name} (Stock: ${product.currentStock})
+                                          </option>`);
+                        });
+                    })
+                    .fail(function() {
+                        alert('Failed to load products');
+                    });
+            }
+
+            // Event Handlers
+            $('#addProductRow').click(addProductRow);
+
+            $(document).on('click', '.remove-row', function() {
+                $(this).closest('tr').remove();
+                updateGrandTotal();
+            });
+
+            $(document).on('change', '.product-select', function() {
+                const $row = $(this).closest('tr');
+                const $option = $(this).find(':selected');
+                const price = $option.data('price') || 0;
+                $row.find('.unit-price').val(price);
+                updateRowTotal($row);
+            });
+
+            $(document).on('input', '.quantity-input', function() {
+                updateRowTotal($(this).closest('tr'));
+            });
+
+            function updateRowTotal($row) {
+                const quantity = parseInt($row.find('.quantity-input').val()) || 0;
+                const price = parseFloat($row.find('.unit-price').val()) || 0;
+                const total = quantity * price;
+                $row.find('.row-total').text('₱' + total.toFixed(2));
+                updateGrandTotal();
+            }
+
+            function updateGrandTotal() {
+                let total = 0;
+                $('.row-total').each(function() {
+                    total += parseFloat($(this).text().replace('₱', '')) || 0;
+                });
+                $('#grandTotal').text('₱' + total.toFixed(2));
+            }
+
+            // Form validation
+            $('form').submit(function(e) {
+                if ($('#productTable tbody tr').length === 0) {
+                    e.preventDefault();
+                    alert('Please add at least one product to the order.');
+                    return;
+                }
+
+                const hasInvalidRows = $('#productTable tbody tr').toArray().some(row => {
+                    const $row = $(row);
+                    return !$row.find('.product-select').val() ||
+                           !$row.find('.quantity-input').val() ||
+                           parseFloat($row.find('.quantity-input').val()) <= 0;
+                });
+
+                if (hasInvalidRows) {
+                    e.preventDefault();
+                    alert('Please complete all product rows with valid quantities.');
+                }
+            });
+        });
+    </script>
 }

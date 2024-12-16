@@ -1,23 +1,22 @@
 ﻿namespace StocKeeper.Migrations
 {
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using StocKeeper.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<StocKeeper.Models.StocKeeperContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = false; // Important: Disable automatic migrations
+            AutomaticMigrationDataLossAllowed = false; // Prevent accidental data loss
         }
 
-        protected override void Seed(StocKeeper.Models.StocKeeperContext context)
+        protected override void Seed(StocKeeperContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
-            //  to avoid creating duplicate seed data.
         }
     }
 }

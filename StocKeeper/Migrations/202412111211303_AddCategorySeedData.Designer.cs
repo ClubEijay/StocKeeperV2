@@ -7,13 +7,13 @@ namespace StocKeeper.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class AddCategorySeedData : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddCategorySeedData));
         
         string IMigrationMetadata.Id
         {
-            get { return "202412020922097_InitialCreate"; }
+            get { return "202412111211303_AddCategorySeedData"; }
         }
         
         string IMigrationMetadata.Source

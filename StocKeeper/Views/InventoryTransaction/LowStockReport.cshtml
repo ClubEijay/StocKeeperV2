@@ -1,0 +1,35 @@
+﻿@model IEnumerable<StocKeeper.Models.Product>
+
+<div class="container mt-4">
+    <h2>Low Stock Products</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Supplier</th>
+                    <th>Current Stock</th>
+                    <th>Minimum Stock Level</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr class="table-danger">
+                        <td>@product.Name</td>
+                        <td>@product.Category.Name</td>
+                        <td>@product.Supplier.Name</td>
+                        <td>@product.CurrentStock</td>
+                        <td>@product.MinimumStockLevel</td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", "Product", new { id = product.ProductId }, new { @class = "btn btn-sm btn-info" })
+                            <a href="@Url.Action("Create", "PurchaseOrder", new { productId = product.ProductId })" class="btn btn-sm btn-warning">Create Purchase Order</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

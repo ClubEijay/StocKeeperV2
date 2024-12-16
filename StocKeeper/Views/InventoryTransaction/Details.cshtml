@@ -1,0 +1,105 @@
+﻿@model StocKeeper.Models.InventoryTransaction
+
+@{
+    ViewBag.Title = "Transaction Details";
+}
+
+<div class="container mt-4">
+    <h2>Transaction Details</h2>
+    <div class="card">
+        <div class="card-header">
+            <h4>Reference: @Model.ReferenceNumber</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Product.Name)</dt>
+                        <dd class="col-sm-8">@Model.Product.Name</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TransactionDate)</dt>
+                        <dd class="col-sm-8">@Model.TransactionDate.ToString("MM-dd-yyyy HH:mm")</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.TransactionType)</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge @(Model.TransactionType == "IN" ? "bg-success" : "bg-danger")">
+                                @Model.TransactionType
+                            </span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quantity)</dt>
+                        <dd class="col-sm-8">@Model.Quantity</dd>
+                        <dt class="col-sm-4">Stock Before</dt>
+                        <dd class="col-sm-8">@ViewBag.StockBefore</dd>
+                        <dt class="col-sm-4">Stock After</dt>
+                        <dd class="col-sm-8">@ViewBag.StockAfter</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <dt>@Html.DisplayNameFor(model => model.Reason)</dt>
+                    <dd>@Model.Reason</dd>
+                </div>
+            </div>
+
+            <!-- Bar Graph Section -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h4>Stock Levels Over Time</h4>
+                    <canvas id="stockChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="btn-group">
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+                @Html.ActionLink("Edit", "Edit", new { id = Model.TransactionId }, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Data for the chart
+        var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.TransactionDates));
+        var stockBeforeData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.StockBeforeData));
+        var stockAfterData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.StockAfterData));
+
+        // Chart.js configuration
+        var ctx = document.getElementById('stockChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Stock Before',
+                        data: stockBeforeData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Stock After',
+                        data: stockAfterData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}

@@ -1,19 +1,155 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Contact Us";
 }
+
+<style>
+    .contact-section {
+        background: linear-gradient(135deg, #ff6b6b, #6b66ff);
+        border-radius: 1rem;
+        padding: 3rem 2rem;
+        margin: 2rem 0;
+        box-shadow: 0 10px 30px rgba(107, 102, 255, 0.2);
+        color: white;
+    }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .team-member {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+    .member-role {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .member-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .member-email {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: color 0.3s ease;
+    }
+
+        .member-email:hover {
+            color: white;
+        }
+
+    .company-info {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .contact-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #fff, #f0f0ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: rgba(255, 255, 255, 0.9);
+    }
+</style>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
+    <section class="contact-section">
+        <h1 class="contact-title">Contact Us</h1>
+        <div class="company-info">
+            <h2 class="section-title">Company Address</h2>
+            <address>
+                <i class="fas fa-building me-2"></i> Club Eijay Corp<br />
+                <i class="fas fa-map-marker-alt me-2"></i> University Of Cebu - Banilad<br />
+                <i class="fas fa-phone me-2"></i> <abbr title="Phone">P:</abbr> 425.555.0100
+            </address>
+        </div>
 
-    <address>
-        Club Eijay Corp<br />
-        University Of Cebu - Banilad<br />
-        <abbr title="Phone">P:</abbr>
-        425.555.0100
-    </address>
+        <h2 class="section-title">Meet Our Team</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <img src="~/Content/DeveloperPics/PEPITO.png" alt="PEPITO" class="member-img" />
+                <h3 class="member-name">Eijay Pepito</h3>
+                <div class="member-role">Project Manager</div>
+                <a href="mailto:eijay.pepito8@gmail.com" class="member-email">
+                    <i class="fas fa-envelope"></i> eijay.pepito8@gmail.com
+                </a>
+            </div>
 
-    <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">eijay.pepito8@gmail.com</a><br />
-        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">eijay.pepito8@gmail.com</a>
-    </address>
+            <div class="team-member">
+                <img src="~/Content/DeveloperPics/GRANDE.png" alt="GRANDE" class="member-img" />
+                <h3 class="member-name">Reynaldo D. Grande Jr. II</h3>
+                <div class="member-role">Software Engineer</div>
+                <a href="mailto:reynaldogrande9@gmail.com" class="member-email">
+                    <i class="fas fa-envelope"></i> reynaldogrande9@gmail.com
+                </a>
+            </div>
+
+            <div class="team-member">
+                <img src="~/Content/DeveloperPics/LETIGIO.png" alt="LETIGIO" class="member-img" />
+                <h3 class="member-name">Louis Jansen G. Letigio</h3>
+                <div class="member-role">System Analyst</div>
+                <a href="mailto:ljletigio19@gmail.com" class="member-email">
+                    <i class="fas fa-envelope"></i> ljletigio19@gmail.com
+                </a>
+            </div>
+
+            <div class="team-member">
+                <img src="~/Content/DeveloperPics/DAYANAN.png" alt="DAYANAN" class="member-img" />
+                <h3 class="member-name">Shawn Patrick R. Dayanan</h3>
+                <div class="member-role">Quality Assurance Engineer</div>
+                <a href="mailto:shawnpatrickdayanan@gmail.com" class="member-email">
+                    <i class="fas fa-envelope"></i> shawnpatrickdayanan@gmail.com
+                </a>
+            </div>
+
+            <div class="team-member">
+                <img src="~/Content/DeveloperPics/ARDIENTE.png" alt="ARDIENTE" class="member-img" />
+                <h3 class="member-name">Jhonrel Ardiente</h3>
+                <div class="member-role">UI Designer</div>
+                <a href="mailto:jhonrelardiente@gmail.com" class="member-email">
+                    <i class="fas fa-envelope"></i> jhonrelardiente@gmail.com
+                </a>
+            </div>
+        </div>
+    </section>
 </main>

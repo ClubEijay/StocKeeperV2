@@ -1,10 +1,161 @@
 ﻿@{
-    ViewBag.Title = "About";
+    ViewBag.Title = "About StocKeeper";
 }
-<main aria-labelledby="title">
-    <h2 id="title">About StocKeeper</h2>
-    <h3>Made in November 27th of 2024</h3>
 
-    <p>This is a System we, Club Eijay made for our ELDNET Subject</p>
-    <p>This is an ASP.NET MVC Inventory Management Web Application</p>
+<style>
+    .about-section {
+        background: linear-gradient(135deg, #ff6b6b, #6b66ff);
+        border-radius: 1rem;
+        padding: 3rem 2rem;
+        margin: 2rem 0;
+        box-shadow: 0 10px 30px rgba(107, 102, 255, 0.2);
+        color: white;
+    }
+
+    .about-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .about-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #fff, #f0f0ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .about-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .info-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: transform 0.3s ease;
+    }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+    .tech-stack {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+
+    .tech-badge {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-size: 0.9rem;
+        transition: background 0.3s ease;
+    }
+
+        .tech-badge:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+    .timeline {
+        position: relative;
+        padding: 2rem 0;
+        margin-top: 3rem;
+    }
+
+    .timeline-item {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+</style>
+
+<main aria-labelledby="title">
+    <section class="about-section">
+        <div class="about-header">
+            <h1 class="about-title">About StocKeeper</h1>
+            <p class="about-subtitle">An Inventory Management System built with modern web technologies</p>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <i class="fas fa-project-diagram"></i>
+                <h3>Project Overview</h3>
+                <p>A comprehensive inventory management system developed by Club Eijay for the FREELDNET subject under Mr. Jhan Fontanar.</p>
+            </div>
+
+            <div class="info-card">
+                <i class="fas fa-code"></i>
+                <h3>Technology Stack</h3>
+                <p>Built using ASP.NET MVC framework with a focus on modern web development practices.</p>
+                <div class="tech-stack">
+                    <span class="tech-badge">ASP.NET MVC</span>
+                    <span class="tech-badge">C#</span>
+                    <span class="tech-badge">SQL Server</span>
+                    <span class="tech-badge">Bootstrap</span>
+                    <span class="tech-badge">Razor</span>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <i class="fas fa-tasks"></i>
+                <h3>Key Features</h3>
+                <p>Implements the MVC design pattern with robust data storage and retrieval capabilities using a relational database.</p>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <i class="fas fa-calendar me-2"></i>
+                <strong>Project Timeline</strong>
+                <p>Development started: November 27th, 2024</p>
+                <p>Final submission for FREELDNET subject</p>
+            </div>
+
+            <div class="timeline-item">
+                <i class="fas fa-bullseye me-2"></i>
+                <strong>Project Objectives</strong>
+                <p>To develop a web application that demonstrates:</p>
+                <ul>
+                    <li>MVC architecture implementation</li>
+                    <li>Database integration</li>
+                    <li>Modern web development practices</li>
+                    <li>User-friendly interface design</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <i class="fas fa-users me-2"></i>
+                <strong>Development Team</strong>
+                <p>Created by Club Eijay, a team of dedicated developers from University Of Cebu - Banilad</p>
+            </div>
+        </div>
+    </section>
 </main>

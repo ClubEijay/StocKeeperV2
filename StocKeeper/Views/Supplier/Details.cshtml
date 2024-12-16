@@ -1,42 +1,106 @@
 ﻿@model StocKeeper.Models.Supplier
-
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Supplier Details";
 }
 
-<h2>Details</h2>
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Supplier Details</h3>
+            <div>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.SupplierId }, new { @class = "btn btn-light me-2" })
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-light" })
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <h4 class="text-primary mb-3">Basic Information</h4>
+                        <div class="mb-3">
+                            <label class="text-muted">Company Name</label>
+                            <p class="h5">@Html.DisplayFor(model => model.Name)</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-muted">Contact Person</label>
+                            <p class="h5">@Html.DisplayFor(model => model.ContactPerson)</p>
+                        </div>
+                    </div>
 
-<div>
-    <h4>Supplier</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                    <div class="mb-4">
+                        <h4 class="text-primary mb-3">Contact Details</h4>
+                        <div class="mb-3">
+                            <label class="text-muted">Email</label>
+                            <p class="h5">
+                                <a href="mailto:@Model.Email">@Html.DisplayFor(model => model.Email)</a>
+                            </p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-muted">Phone</label>
+                            <p class="h5">
+                                <a href="tel:@Model.Phone">@Html.DisplayFor(model => model.Phone)</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <h4 class="text-primary mb-3">Location</h4>
+                        <div class="mb-3">
+                            <label class="text-muted">Address</label>
+                            <p class="h5">@Html.DisplayFor(model => model.Address)</p>
+                        </div>
+                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ContactInfo)
-        </dt>
+                    <div class="mb-4">
+                        <h4 class="text-primary mb-3">Related Information</h4>
+                        <div class="mb-3">
+                            <label class="text-muted">Number of Products</label>
+                            <p class="h5">@Model.Products.Count()</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-muted">Purchase Orders</label>
+                            <p class="h5">@Model.PurchaseOrders.Count()</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.ContactInfo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-
-    </dl>
+            @if (Model.Products.Any())
+            {
+                <div class="mt-4">
+                    <h4 class="text-primary mb-3">Products Supplied</h4>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Category</th>
+                                    <th>Unit Price</th>
+                                    <th>Stock Level</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in Model.Products)
+                                {
+                                    <tr>
+                                        <td>@product.Name</td>
+                                        <td>@(product.Category?.Name ?? "N/A")</td>
+                                        <td>@product.UnitPrice.ToString("C")</td>
+                                        <td>@product.CurrentStock</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            <div class="text-muted">
+                <small>Last Updated: @DateTime.Now.ToString("MMMM dd, yyyy")</small>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.SupplierID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

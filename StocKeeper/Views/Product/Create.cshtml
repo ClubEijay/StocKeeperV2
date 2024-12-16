@@ -1,55 +1,94 @@
 ﻿@model StocKeeper.Models.ProductViewModel
 
-<div class="container mt-4">
-    <h2>Create Product</h2>
+@{
+    ViewBag.Title = "Create Product";
+}
 
-    <form asp-action="Create">
-        <!-- Name Input -->
+<h2>Create Product</h2>
+
+@using (Html.BeginForm("Create", "Product", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Product</h4>
+        <hr />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <!-- Product Name -->
         <div class="form-group">
-            <label>Name</label>
-            <label asp-for="Product.Name" class="control-label"></label>
-            <input asp-for="Product.Name" class="form-control" />
-            <span asp-validation-for="Product.Name" class="text-danger"></span>
+            @Html.LabelFor(model => model.Product.Name, "Product Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Product.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Product.Name, "", new { @class = "text-danger" })
+            </div>
         </div>
 
-        <!-- Category Input -->
+        <!-- Description -->
         <div class="form-group">
-            <label>Category</label>
-            <label asp-for="Product.Category" class="control-label"></label>
-            <input asp-for="Product.Category" class="form-control" />
-            <span asp-validation-for="Product.Category" class="text-danger"></span>
+            @Html.LabelFor(model => model.Product.Description, "Description", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Product.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Product.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Unit Price -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Product.UnitPrice, "Unit Price", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Product.UnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Product.UnitPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Current Stock -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Product.CurrentStock, "Current Stock", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Product.CurrentStock, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Product.CurrentStock, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Minimum Stock Level -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Product.MinimumStockLevel, "Minimum Stock Level", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Product.MinimumStockLevel, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Product.MinimumStockLevel, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Product.CategoryId, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Product.CategoryId, new SelectList(Model.Categories, "Value", "Text"), "-- Choose --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Product.CategoryId, "", new { @class = "text-danger" })
+            </div>
         </div>
 
         <!-- Supplier Dropdown -->
         <div class="form-group">
-            <label>Supplier</label>
-            <label asp-for="Product.SupplierID" class="control-label"></label>
-            <select asp-for="Product.SupplierID" class="form-control">
-                @foreach (var supplier in Model.Suppliers)
-                {
-                    <option value="@supplier.Value">@supplier.Text</option>
-                }
-            </select>
-            <span asp-validation-for="Product.SupplierID" class="text-danger"></span>
+            @Html.LabelFor(model => model.Product.SupplierId, "Supplier", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Product.SupplierId, new SelectList(Model.Suppliers, "Value", "Text"), "-- Choose --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Product.SupplierId, "", new { @class = "text-danger" })
+            </div>
         </div>
 
-        <!-- Stock Level Input -->
+        <!-- Submit Button -->
         <div class="form-group">
-            <label>Stock Level</label>
-            <label asp-for="Product.StockLevel" class="control-label"></label>
-            <input asp-for="Product.StockLevel" class="form-control" />
-            <span asp-validation-for="Product.StockLevel" class="text-danger"></span>
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary" })
+            </div>
         </div>
+    </div>
+}
 
-        <!-- Price Input -->
-        <div class="form-group">
-            <label>Price</label>
-            <label asp-for="Product.Price" class="control-label"></label>
-            <input asp-for="Product.Price" class="form-control" />
-            <span asp-validation-for="Product.Price" class="text-danger"></span>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-    </form>
-</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

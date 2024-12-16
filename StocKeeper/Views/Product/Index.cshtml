@@ -1,30 +1,94 @@
 ﻿@model IEnumerable<StocKeeper.Models.Product>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Supplier</th>
-            <th>Stock Level</th>
-            <th>Price</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Name</td>
-                <td>@item.Category</td>
-                <td>@item.Supplier.Name</td>
-                <td>@item.StockLevel</td>
-                <td>@item.Price</td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ProductID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+<div class="container mt-4">
+    <h2>Product List</h2>
+
+    <!-- Search and Filter Panel -->
+    <div class="card mb-3">
+        <div class="card-body">
+            @using (Html.BeginForm("Index", "Product", FormMethod.Get, new { @class = "row g-3" }))
+            {
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Search</label>
+                        <input type="text" name="searchString" value="@ViewBag.CurrentSearch" class="form-control" placeholder="Search products..." />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Category</label>
+                        @Html.DropDownList("categoryId",
+                            new SelectList(ViewBag.Categories, "Value", "Text", ViewBag.CurrentCategoryId),
+                            "All Categories",
+                            new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Supplier</label>
+                        @Html.DropDownList("supplierId",
+                            new SelectList(ViewBag.Suppliers, "Value", "Text", ViewBag.CurrentSupplierId),
+                            "All Suppliers",
+                            new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Min Price</label>
+                        <input type="number" name="minPrice" value="@ViewBag.CurrentMinPrice" class="form-control" step="0.01" min="0" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Max Price</label>
+                        <input type="number" name="maxPrice" value="@ViewBag.CurrentMaxPrice" class="form-control" step="0.01" min="0" />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    <a href="@Url.Action("Index")" class="btn btn-secondary">Clear Filters</a>
+                    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success float-end" })
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Products Table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Supplier</th>
+                    <th>Current Stock</th>
+                    <th>Unit Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="@(item.CurrentStock <= item.MinimumStockLevel ? "table-warning" : "")">
+                        <td>@item.Name</td>
+                        <td>@item.Category.Name</td>
+                        <td>@item.Supplier.Name</td>
+                        <td>
+                            @item.CurrentStock
+                            @if (item.CurrentStock <= item.MinimumStockLevel)
+                            {
+                                <span class="badge bg-warning text-dark">Low Stock</span>
+                            }
+                        </td>
+                        <td>@item.UnitPrice.ToString("C")</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }, new { @class = "btn btn-sm btn-warning" })
+                            @Html.ActionLink("Details", "Details", new { id = item.ProductId }, new { @class = "btn btn-sm btn-info" })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ProductId }, new { @class = "btn btn-sm btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

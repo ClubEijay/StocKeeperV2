@@ -9,6 +9,7 @@ namespace StocKeeper.Models
     public class ProductViewModel
     {
         public Product Product { get; set; }
-        public IEnumerable<SelectListItem> Suppliers { get; set; }
+        public List<SelectListItem> Categories { get; set; }
+        public List<SelectListItem> Suppliers { get; set; }
     }
 }

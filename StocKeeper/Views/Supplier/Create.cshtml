@@ -1,56 +1,96 @@
 ﻿@model StocKeeper.Models.Supplier
-
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Supplier";
 }
 
-<h2>Create</h2>
-
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Supplier</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Create New Supplier</h3>
+            <div>
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-light" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContactInfo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ContactInfo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ContactInfo, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            <div class="card-body">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="text-primary mb-3">Basic Information</h4>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(model => model.Name, "Company Name", new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(model => model.ContactPerson, "Contact Person", new { @class = "form-label" })
+                            @Html.EditorFor(model => model.ContactPerson, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ContactPerson, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(model => model.Email, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(model => model.Phone, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", type = "tel" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h4 class="text-primary mb-3">Address Information</h4>
+
+                        <div class="mb-3">
+                            @Html.LabelFor(model => model.Address, new { @class = "form-label" })
+                            @Html.TextAreaFor(model => model.Address, new { @class = "form-control", rows = "4" })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Create Supplier
+                    </button>
+                    <span class="text-muted">
+                        <small>All fields marked with an asterisk (*) are required</small>
+                    </span>
+                </div>
+            </div>
+        }
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            // Add custom phone number validation if needed
+            $.validator.addMethod("phoneFormat", function (value, element) {
+                return this.optional(element) || /^[\d\s\-\+\(\)]+$/.test(value);
+            }, "Please enter a valid phone number");
+
+            // Initialize form validation
+            $("form").validate({
+                rules: {
+                    Phone: {
+                        phoneFormat: true
+                    }
+                }
+            });
+        });
+    </script>
 }

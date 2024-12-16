@@ -2,89 +2,147 @@
     ViewBag.Title = "Welcome to StocKeeper";
 }
 
-<div class="container mt-5">
-
-    <!-- Hero Section -->
-    <div class="jumbotron text-center text-light" style="background: linear-gradient(to right, #4a4e69, #22223b);">
-        <h1 class="display-4">Welcome to StocKeeper</h1>
-        <p class="lead">Your one-stop solution for efficient inventory management.</p>
-        <hr class="my-4" style="border-color: #c9ada7;">
-        <p>Manage your products, suppliers, and stock levels seamlessly.</p>
-        <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Product")" role="button">Get Started</a>
-    </div>
-
-    <!-- Quick Navigation Cards -->
-    <div class="row text-light">
-        <div class="col-md-3 mb-4">
-            <div class="card bg-dark h-100">
-                <div class="card-body text-center">
-                    <i class="bi bi-box-seam display-4"></i>
-                    <h5 class="card-title mt-2">Products</h5>
-                    <p class="card-text">View and manage your product inventory.</p>
-                    <a href="@Url.Action("Index", "Product")" class="btn btn-primary btn-sm">Manage Products</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card bg-dark h-100">
-                <div class="card-body text-center">
-                    <i class="bi bi-people display-4"></i>
-                    <h5 class="card-title mt-2">Suppliers</h5>
-                    <p class="card-text">Keep track of your trusted suppliers.</p>
-                    <a href="@Url.Action("Index", "Supplier")" class="btn btn-primary btn-sm">Manage Suppliers</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card bg-dark h-100">
-                <div class="card-body text-center">
-                    <i class="bi bi-stack display-4"></i>
-                    <h5 class="card-title mt-2">Inventory</h5>
-                    <p class="card-text">Monitor stock levels and log adjustments.</p>
-                    <a href="@Url.Action("Index", "Inventory")" class="btn btn-primary btn-sm">View Inventory</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card bg-dark h-100">
-                <div class="card-body text-center">
-                    <i class="bi bi-file-earmark-text display-4"></i>
-                    <h5 class="card-title mt-2">Purchase Orders</h5>
-                    <p class="card-text">Create and track purchase orders.</p>
-                    <a href="@Url.Action("Index", "PurchaseOrder")" class="btn btn-primary btn-sm">View Orders</a>
+<div class="container-fluid px-4 py-5" style="background-color: #22223b;">
+    <!-- Hero Section with Refined Styling -->
+    <div class="row">
+        <div class="col-12">
+            <div class="jumbotron text-center text-light rounded-4 py-5" style="background: linear-gradient(to right, #4a4e69, #22223b); box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
+                <div class="container">
+                    <h1 class="display-4 fw-bold mb-4">StocKeeper</h1>
+                    <p class="lead mb-4">Your comprehensive inventory management solution</p>
+                    <hr class="my-4 border-top border-light opacity-50">
+                    <p class="mb-4">Streamline product tracking, supplier management, and stock control</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- System Stats Section -->
-    <div class="mt-5 text-light">
-        <h3 class="mb-3">System Overview</h3>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card bg-primary text-center">
-                    <div class="card-body">
-                        <h2>@ViewBag.TotalProducts</h2>
-                        <p>Total Products</p>
+    <!-- Quick Navigation Cards with Hover Effects -->
+    @{
+        var userRole = ViewBag.UserRole as string;
+    }
+
+    <div class="row g-4 py-5">
+        @{
+            var navCards = new[] {
+            new {
+                Icon = "bi-box-seam",
+                Title = "Products",
+                Description = "Manage your product catalog with ease",
+                Action = "Index",
+                Controller = "Product"
+            },
+            new {
+                Icon = "bi-people",
+                Title = "Suppliers",
+                Description = "Track and manage your supplier network",
+                Action = "Index",
+                Controller = "Supplier"
+            },
+            new {
+                Icon = "bi-stack",
+                Title = "Inventory",
+                Description = "Real-time stock level monitoring",
+                Action = "Index",
+                Controller = "InventoryTransaction"
+            },
+            new {
+                Icon = "bi-file-earmark-text",
+                Title = "Purchase Orders",
+                Description = "Create and track procurement processes",
+                Action = "Index",
+                Controller = "PurchaseOrder"
+            }
+        };
+        }
+        @foreach (var card in navCards)
+        {
+            @* Skip Inventory Transaction for Business Owners *@
+            if (userRole == "BusinessOwner" && card.Title == "Inventory")
+            {
+                continue;
+            }
+
+            <div class="col-md-3">
+                <div class="card bg-dark h-100 border-0 shadow-lg transform-hover">
+                    <div class="card-body text-center p-4">
+                        <i class="bi @card.Icon display-4 text-primary mb-3"></i>
+                        <h5 class="card-title mb-3 text-light">@card.Title</h5>
+                        <p class="card-text text-muted mb-4">@card.Description</p>
+                        <a href="@Url.Action(card.Action, card.Controller)" class="btn btn-outline-primary rounded-pill">
+                            Manage @card.Title
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card bg-success text-center">
-                    <div class="card-body">
-                        <h2>@ViewBag.TotalSuppliers</h2>
-                        <p>Total Suppliers</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card bg-warning text-center">
-                    <div class="card-body">
-                        <h2>@ViewBag.LowStock</h2>
-                        <p>Low Stock Alerts</p>
-                    </div>
-                </div>
-            </div>
+        }
+    </div>
+
+    <!-- System Stats Section with Enhanced Design -->
+    <div class="row g-4">
+        <div class="col-12">
+            <h3 class="mb-4 text-light">System Dashboard</h3>
         </div>
+        @{
+            var stats = new[] {
+                new {
+                    Value = ViewBag.TotalProducts,
+                    Label = "Total Products",
+                    Color = "primary",
+                    Icon = "bi-box-seam"
+                },
+                new {
+                    Value = ViewBag.TotalSuppliers,
+                    Label = "Total Suppliers",
+                    Color = "success",
+                    Icon = "bi-people"
+                },
+                new {
+                    Value = ViewBag.LowStock,
+                    Label = "Low Stock Alerts",
+                    Color = "warning",
+                    Icon = "bi-exclamation-triangle"
+                }
+            };
+        }
+        @foreach (var stat in stats)
+        {
+            <div class="col-md-4">
+                <div class="card bg-@(stat.Color) text-white position-relative overflow-hidden">
+                    <div class="card-body text-center py-4">
+                        <i class="bi @(stat.Icon) position-absolute top-0 start-0 opacity-25 display-4 ms-3 mt-2"></i>
+                        <h2 class="display-6 fw-bold">@stat.Value</h2>
+                        <p class="mb-0">@stat.Label</p>
+                    </div>
+                    @if (stat.Label == "Low Stock Alerts" && stat.Value > 0)
+                    {
+                        <div class="alert alert-danger m-3 rounded">
+                            <i class="bi bi-bell-fill me-2"></i>
+                            Warning: @stat.Value product(s) below minimum stock level!
+                            <a href="@Url.Action("LowStockReport", "InventoryTransaction")" class="btn btn-danger btn-sm ms-2">
+                                View Details
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
     </div>
 </div>
+
+<!-- Optional: Add some custom CSS for hover and transform effects -->
+<style>
+    body {
+        background-color: #22223b !important;
+    }
+
+    .transform-hover {
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .transform-hover:hover {
+            transform: scale(1.05);
+        }
+</style>
+
+

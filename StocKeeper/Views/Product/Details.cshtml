@@ -1,58 +1,76 @@
 ﻿@model StocKeeper.Models.Product
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Product Details";
 }
 
-<h2>Details</h2>
+<h2>Product Details</h2>
 
 <div>
     <h4>Product</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Supplier.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Supplier.Name)
-        </dd>
-
+        <!-- Product Name -->
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            <input type="text" class="form-control" value="@Html.DisplayFor(model => model.Name)" readonly />
         </dd>
 
+        <!-- Description -->
         <dt>
-            @Html.DisplayNameFor(model => model.Category)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Category)
+            <textarea class="form-control" readonly>@Html.DisplayFor(model => model.Description)</textarea>
         </dd>
 
+        <!-- Supplier Name -->
         <dt>
-            @Html.DisplayNameFor(model => model.StockLevel)
+            @Html.DisplayNameFor(model => model.Supplier.Name)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.StockLevel)
+            <input type="text" class="form-control" value="@Html.DisplayFor(model => model.Supplier.Name)" readonly />
         </dd>
 
+        <!-- Category Name -->
         <dt>
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayNameFor(model => model.Category.Name) <!-- Show Category Name -->
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Price)
+            <input type="text" class="form-control" value="@Html.DisplayFor(model => model.Category.Name)" readonly />
         </dd>
 
+        <!-- Current Stock -->
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentStock)
+        </dt>
+        <dd>
+            <input type="text" class="form-control" value="@Html.DisplayFor(model => model.CurrentStock)" readonly />
+        </dd>
+
+        <!-- Minimum Stock Level -->
+        <dt>
+            @Html.DisplayNameFor(model => model.MinimumStockLevel)
+        </dt>
+        <dd>
+            <input type="text" class="form-control" value="@Html.DisplayFor(model => model.MinimumStockLevel)" readonly />
+        </dd>
+
+        <!-- Unit Price -->
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </dt>
+        <dd>
+            <input type="text" class="form-control" value="@Html.DisplayFor(model => model.UnitPrice)" readonly />
+        </dd>
     </dl>
 </div>
+
+<!-- Edit and Back to List Links -->
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-sm btn-warning" }) |
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
 </p>

@@ -10,18 +10,37 @@ namespace StocKeeper.Models
     public class Supplier
     {
         [Key]
-        public int SupplierID { get; set; } // Primary Key
+        public int SupplierId { get; set; }
 
         [Required]
         [StringLength(100)]
+        [Display(Name = "Supplier Name")]
         public string Name { get; set; }
 
-        [StringLength(200)]
-        public string ContactInfo { get; set; }
+        [Required]
+        [StringLength(100)]
+        [Display(Name = "Contact Person")]
+        public string ContactPerson { get; set; }
 
+        [Required]
+        [EmailAddress]
+        [StringLength(100)]
+        public string Email { get; set; }
+
+        [Required]
+        [Phone]
+        [StringLength(20)]
+        public string Phone { get; set; }
+
+        [Required]
         [StringLength(200)]
         public string Address { get; set; }
 
-        public ICollection<Product> Products { get; set; } // Navigation Property
+        [Display(Name = "Status")]
+        public bool IsActive { get; set; } = true;
+
+        // Navigation properties
+        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<PurchaseOrders> PurchaseOrders { get; set; }
     }
 }
